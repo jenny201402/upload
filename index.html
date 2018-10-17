@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <link rel="stylesheet" href="layui/css/layui.css" media="all">
+</head>
+<body>
+<div class="layui-container">
+    <div class="layui-row" align="center" style="margin-top: 30px;">
+        <button type="button" class="layui-btn" id="upload">
+            <i class="layui-icon">&#xe67c;</i>选择文件</button>
+    </div>
+    <div id="img" class="layui-row" align="center" style="margin-top: 30px;"></div>
+    <!--<div class="layui-row" align="center" style="margin-top: 30px;">-->
+        <!--<textarea id="result" cols="50" rows="10"></textarea>-->
+    <!--</div>-->
+</div>
+</body>
+<script src="js/jquery.min.js"></script>
+<script src="layui/layui.js"></script>
+<script>
+    layui.use('upload', function(){
+        var upload = layui.upload;
+
+        //执行上传
+        var uploadInst = upload.render({
+            elem: '#upload' //绑定元素
+            ,url: 'controller/accept.php' //上传接口
+            ,accept: 'file'
+            ,before: function(obj){
+                // layer.load();  //这是做什么的？？？
+            }
+            ,done: function(res){//上传完毕回调
+                layer.closeAll('loading');
+
+                layer.alert('上传成功', {
+                    icon: 1,
+                    title: false,
+                    shadeClose: true,
+                    closeBtn: false,
+                    skin: 'layer-ext-moon'
+                });
+
+                // $("#result").append(res.name+"<br>");
+
+                $('#img').html("<img src=\"" + res.url + "\">");
+            }
+            ,error: function(){//请求异常回调
+                layer.alert('上传失败', {
+                    icon: 2,
+                    title: false,
+                    shadeClose: true,
+                    closeBtn: false,
+                    skin: 'layer-ext-moon'
+                });
+            }
+        });
+    });
+</script>
+</html>
